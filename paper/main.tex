@@ -39,14 +39,14 @@ Sometimes also known as Integrity.
 
 \subsection{Emerging}
 
-\subsection{Linearity}
+\subsubsection{Linearity}
 Proposed in HotStuff~\cite{yin2019hotstuff}.
 
 After GST, any correct leader, once designated, sends only $O(n)$ authenticators to drive a consensus decision. This includes the case where a leader is replaced (view-change).
 Consequently, communication costs to reach consensus after GST is $O(n^2)$ authenticators in the worst case of cascading leader failures (in PBFT the worst case is $O(n^3)$).
 
 
-\subsection{Responsiveness}
+\subsubsection{Responsiveness}
 Proposed in Hybrid Consensus~\cite{pass2017hybrid}.
 
 (Informal) a consensus protocol is said to be responsive when its transaction confirmation time depends only on the network’s actual delay, but not on any a-prior known upper-bound.
@@ -79,14 +79,17 @@ The value of $T$ depends on the research problems and protocols...
 \subsection{Classic}
 
 \subsubsection{Common prefix and Consistency}
-$k$-common-preifx~\cite{garay2015bitcoin}: for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
+$k$-common-preifx~\cite{garay2015bitcoin}:
+for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
 
 \cite{pass2017analysis} refines common prefix to consistency in order to provide a black-box reduction.
 
-$T$-consistency~\cite{pass2017analysis}: with overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
+$T$-consistency~\cite{pass2017analysis}:
+with overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
 
 \subsubsection{Chain growth}
-$(\tau, s)$-chain-growth: for any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
+$(\tau, s)$-chain-growth:
+for any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
 
 Some papers~\cite{rocket2018snowflake}~\cite{pass2017sleepy} also define upper/lower bounds for chain growth.
 
