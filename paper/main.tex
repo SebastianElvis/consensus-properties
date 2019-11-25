@@ -22,44 +22,43 @@ Monash University and CSIRO-Data61\\
 
 \section{Properties of consensus}
 
-\textbf{Consensus.}
+\subsection{Consensus}
 $n$ machines (where $f$ machines are Byzantine) run a consensus protocol to agree on a single value.
 
-\subsection{Classic}
+\subsection{Classic properties}
 
 \subsubsection{Agreement}
 (Informal) All correct processes must agree on the same value.
 
 \subsubsection{Validity}
 (Informal) If all correct processes propose the same value, all processes must finally decide this value.
+
 Sometimes also known as Integrity.
 
 \subsubsection{Termination}
 (Informal) Eventually, all correct processes decide some values.
 
-\subsection{Emerging}
+\subsection{Emerging properties}
 
 \subsubsection{Linearity}
 Proposed in HotStuff~\cite{yin2019hotstuff}.
 
-After GST, any correct leader, once designated, sends only $O(n)$ authenticators to drive a consensus decision. This includes the case where a leader is replaced (view-change).
-Consequently, communication costs to reach consensus after GST is $O(n^2)$ authenticators in the worst case of cascading leader failures (in PBFT the worst case is $O(n^3)$).
-
+(Informal) The communication complexity of consensus is $O(n)$ where $n$ is the number of participants.
 
 \subsubsection{Responsiveness}
 Proposed in Hybrid Consensus~\cite{pass2017hybrid}.
 
-(Informal) a consensus protocol is said to be responsive when its transaction confirmation time depends only on the network’s actual delay, but not on any a-prior known upper-bound.
+(Informal) The transaction confirmation time depends only on the network’s actual delay, but not on any a-prior known upper-bound.
 
 
 
 
 \section{Properties of state machine replication}
 
-\textbf{State machine replication.}
+\subsection{State machine replication}
 Replicate a machine to $n$ machines to run a single service that can tolerate $\geq f$ Byzantine machines ($n > f$).
 
-\subsection{Classic}
+\subsection{Properties}
 
 \subsubsection{Safety}
 (Informal) When decisions are made by any two correct nodes, they decide on non-conflicting transactions.
@@ -78,7 +77,7 @@ The value of $T$ depends on the research problems and protocols...
 
 \subsection{Classic}
 
-\subsubsection{Common prefix and Consistency}
+\subsubsection{Common prefix and $T$-Consistency}
 $k$-common-preifx~\cite{garay2015bitcoin}:
 for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
 
