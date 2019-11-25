@@ -68,6 +68,8 @@ Replicate a machine to $n$ machines to run a single service that can tolerate $\
 
 The value of $T$ depends on the research problems and protocols...
 
+\subsubsection{Total ordering}
+(Taken from \cite{duan2018beat}) If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct replica has delivered $m'_1,m'_2, \dots,m'_{s'}$, then $m_i = m'_i$ for $1 \leq i \leq min(s, s')$.
 
 
 
@@ -81,7 +83,7 @@ The value of $T$ depends on the research problems and protocols...
 $k$-common-preifx~\cite{garay2015bitcoin}:
 for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
 
-\cite{pass2017analysis} refines common prefix to consistency in order to provide a black-box reduction.
+\cite{pass2017analysis} refines Common Prefix to $T$-Consistency in order to provide a black-box reduction.
 
 $T$-consistency~\cite{pass2017analysis}:
 with overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
@@ -98,7 +100,7 @@ $(\mu, k)$-chain-quality: the proportion of blocks in any $k$-long subsequence p
 
 
 
-\bibliographystyle{splncs04}
+\bibliographystyle{alpha}
 \bibliography{refs}
 
 \end{document}
