@@ -92,7 +92,7 @@
 % https://disco.ethz.ch/courses/podc_allstars/lecture/chapter16.pdf
 
 \begin{definition}[Consensus]
-There are $n$ nodes, of which at most $f$ might be faulty (or Byzantine), i.e., $\geq n-f$ nodes are correct.
+There are $n$ nodes, of which at most $f$ might be faulty (or Byzantine).
 Each node $P_i$ starts with an input value (say $u_i$).
 The nodes must decide one of those values (say $v_i$), satisfying three properties: Agreement, Validity and Termination.
 \end{definition}
@@ -242,7 +242,11 @@ The value of $T$ depends on the research problems and protocols.
 \begin{frame}
 \frametitle{Properties of state machine replication - Total ordering}
 
-(Taken from \cite{duan2018beat}) If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct replica has delivered $m'_1,m'_2, \dots,m'_{s'}$, then $m_i = m'_i$ for $1 \leq i \leq min(s, s')$.
+(Taken from \cite{duan2018beat}) 
+
+\begin{definition}[Total ordering]
+If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct replica has delivered $m'_1,m'_2, \dots,m'_{s'}$, then $m_i = m'_i$ for $1 \leq i \leq min(s, s')$.
+\end{definition}
 
 \end{frame}
 
@@ -298,7 +302,7 @@ $(\mu, k)$-chain-quality: the proportion of blocks in any $k$-long subsequence p
 
 \begin{frame}[allowframebreaks]
     \frametitle{References}
-    \bibliographystyle{plain}
+    \bibliographystyle{alpha}
     \tiny\bibliography{refs}
 \end{frame}
 
