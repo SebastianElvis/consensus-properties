@@ -269,13 +269,17 @@ If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct re
 \begin{frame}
 \frametitle{Properties of blockchains - Common prefix (Consistency)}
 
-$k$-common-preifx~\cite{garay2015bitcoin}:
-for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
+First proposed in~\cite{garay2015bitcoin}.
+
+\begin{definition}[$k$-common-preifx]
+For any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
+\end{definition}
 
 \cite{pass2017analysis} refines Common Prefix to $T$-Consistency in order to provide a black-box reduction.
 
-$T$-consistency~\cite{pass2017analysis}:
-with overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
+\begin{definition}[$T$-consistency]
+With overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
+\end{definition}
 
 
 \end{frame}
@@ -283,8 +287,9 @@ with overwhelming probability, at any point, the chains of two honest players ca
 \begin{frame}
 \frametitle{Properties of blockchains - Chain growth}
 
-$(\tau, s)$-chain-growth:
-for any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
+\begin{definition}[$(\tau, s)$-chain-growth]
+For any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
+\end{definition}
 
 Some papers~\cite{rocket2018snowflake}\cite{pass2017sleepy} also define upper/lower bounds for chain growth.
 
@@ -295,7 +300,9 @@ Some papers~\cite{rocket2018snowflake}\cite{pass2017sleepy} also define upper/lo
 \begin{frame}
 \frametitle{Properties of blockchains - Chain quality (Fairness)}
     
-$(\mu, k)$-chain-quality: the proportion of blocks in any $k$-long subsequence produced by the adversary is less than $\mu \cdot k$, where $\mu$ is the portion of mining power controlled by the adversary.
+\begin{definition}[$(\mu, k)$-chain-quality]
+The proportion of blocks in any $k$-long subsequence produced by the adversary is less than $\mu \cdot k$, where $\mu$ is the portion of mining power controlled by the adversary.
+\end{definition}
 
 \end{frame}
 
