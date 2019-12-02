@@ -1,0 +1,304 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+ 
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{array}
+
+\usepackage{graphicx}
+\graphicspath{{./figs/}}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{xspace}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+%Information to be included in the title page:
+\title{Properties of consensus protocols}
+
+\author{Runchao Han}
+\institute{}
+\date{}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+    \frametitle{Summary}
+
+
+    \tikzstyle{block} = [draw, rectangle]
+
+    \tikzstyle{property} = [draw, circle]
+
+
+    \begin{tikzpicture}[]
+        \node [block] (consensus) {Consensus};
+        \node [block] (smr) {State machine replication};
+        \node [block] (blockchain) {Blockchain};
+
+        \node [property] (agreement) {Agreement};
+        \node [property] (validity) {Validity};
+        \node [property] (termination) {Termination};
+        \node [property] (linearity) {Linearity};
+        \node [property] (responsiveness) {Responsiveness};
+
+        \node [property] (safety) {Safety};
+        \node [property] (liveness) {Liveness};
+        \node [property] (to) {Total ordering};
+
+        \node [property] (cf) {Common prefix (Consistency)};
+        \node [property] (cg) {Chain growth};
+        \node [property] (cq) {Chain quality (Fairness)};
+
+        \draw[->,blue] (consensus) -- (smr);
+        \draw[->,blue] (consensus) -- (blockchain);
+
+        \draw[->,blue] (consensus) -- (agreement);
+        \draw[->,blue] (consensus) -- (validity);
+        \draw[->,blue] (consensus) -- (termination);
+        \draw[->,blue] (consensus) -- (linearity);
+        \draw[->,blue] (consensus) -- (responsiveness);
+
+        \draw[->,blue] (smr) -- (safety);
+        \draw[->,blue] (smr) -- (liveness);
+        \draw[->,blue] (smr) -- (to);
+
+        \draw[->,blue] (blockchain) -- (cf);
+        \draw[->,blue] (blockchain) -- (cg);
+        \draw[->,blue] (blockchain) -- (cq);
+
+
+    \end{tikzpicture}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Properties of Byzantine consensus protocols}
+
+
+\begin{frame}
+\frametitle{Consensus}
+
+% https://disco.ethz.ch/courses/podc_allstars/lecture/chapter16.pdf
+
+\begin{definition}[Consensus]
+There are $n$ nodes, of which at most $f$ might be faulty (or Byzantine), i.e., $\geq n-f$ nodes are correct.
+Each node $P_i$ starts with an input value (say $u_i$).
+The nodes must decide one of those values (say $v_i$), satisfying three properties: Agreement, Validity and Termination.
+\end{definition}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Properties of consensus protocols}
+
+    Classic:
+
+    \begin{itemize}
+        \item Agreement
+        \item Validity
+        \item Termination
+    \end{itemize}
+
+    Emerging:
+
+    \begin{itemize}
+        \item Linearity
+        \item Responsiveness
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of consensus protocols - Agreement}
+
+(Informal) All correct processes must agree on the same value.
+
+\begin{definition}[Agreement]
+For any two honest players $P_i$ and $P_j$, $v_i = v_j$.
+\end{definition}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of consensus protocols - Validity}
+
+(Informal) The decision value must be the input value of a node.
+
+\begin{definition}[Validity]
+$\forall i: u_i \in \langle v_i \rangle$.
+\end{definition}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of consensus protocols - Termination}
+
+(Informal) All correct nodes terminate in finite time.
+
+\begin{definition}[Termination]
+All the honest players terminate with probability 1.
+\end{definition}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Properties of consensus protocols - Linearity}
+
+First proposed in HotStuff~\cite{yin2019hotstuff}.
+
+\begin{definition}[Linearity]
+Any correct leader sends only $O(n)$ messages to drive a protocol to consensus.
+\end{definition}
+
+
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Properties of consensus protocols - Responsiveness}
+
+First defined in Hybrid Consensus~\cite{pass2017hybrid}.
+
+(Informal) The transaction confirmation time depends only on the network’s actual delay, but not on any a-prior known upper-bound.
+
+\begin{definition}[Responsiveness]
+A consensus protocol is responsive if nodes can reach the consensus in time depending only on the network’s actual $\delta$ (message delays), not on the loose upper bound $\Delta$ (known upper bound on message delays).
+\end{definition}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Properties of state machine replication}
+
+
+\begin{frame}
+\frametitle{State machine replication}
+
+State machine replication is a general method for implementing a fault-tolerant service by replicating servers and coordinating client interactions with server replicas.
+
+A replicated state machine should:
+
+\begin{enumerate}
+    \item Place copies of the State Machine on multiple, independent servers.
+    \item Receive client requests, interpreted as Inputs to the State Machine.
+    \item Choose an ordering for the Inputs.
+    \item Execute Inputs in the chosen order on each server.
+    \item Respond to clients with the Output from the State Machine.
+    \item Monitor replicas for differences in State or Output.
+\end{enumerate}
+
+
+
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Properties of state machine replication}
+
+    \begin{itemize}
+        \item Safety
+        \item Liveness
+        \item Total ordering
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of state machine replication - Safety}
+
+(Informal) When decisions are made by any two correct nodes, they decide on non-conflicting transactions.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of state machine replication - Liveness}
+
+(Informal) $T$-Liveness: each honest node terminates and outputs a value at the end of $T$.
+
+The value of $T$ depends on the research problems and protocols.
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of state machine replication - Total ordering}
+
+(Taken from \cite{duan2018beat}) If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct replica has delivered $m'_1,m'_2, \dots,m'_{s'}$, then $m_i = m'_i$ for $1 \leq i \leq min(s, s')$.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Properties of blockchains}
+
+\begin{frame}
+\frametitle{Properties of blockchains}
+
+\begin{itemize}
+    \item Common prefix (Consistency)
+    \item Chain growth
+    \item Chain quality (Fairness)
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of blockchains - Common prefix (Consistency)}
+
+$k$-common-preifx~\cite{garay2015bitcoin}:
+for any pair of honest players $P_1$, $P_2$ adopting the chains $C_1$, $C_2$ at rounds $r_1 \leq r_2$, it holds that $\mathcal{C}_{1}^{\lceil k} \preceq \mathcal{C}_2$.
+
+\cite{pass2017analysis} refines Common Prefix to $T$-Consistency in order to provide a black-box reduction.
+
+$T$-consistency~\cite{pass2017analysis}:
+with overwhelming probability, at any point, the chains of two honest players can differ only in the last $T$ blocks.
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Properties of blockchains - Chain growth}
+
+$(\tau, s)$-chain-growth:
+for any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
+
+Some papers~\cite{rocket2018snowflake}\cite{pass2017sleepy} also define upper/lower bounds for chain growth.
+
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Properties of blockchains - Chain quality (Fairness)}
+    
+$(\mu, k)$-chain-quality: the proportion of blocks in any $k$-long subsequence produced by the adversary is less than $\mu \cdot k$, where $\mu$ is the portion of mining power controlled by the adversary.
+
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]
+    \frametitle{References}
+    \bibliographystyle{plain}
+    \tiny\bibliography{refs}
+\end{frame}
+
+\end{document}
