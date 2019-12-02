@@ -15,7 +15,9 @@
 
 
 \usepackage{tikz}
-\usetikzlibrary{arrows}
+\usetikzlibrary{arrows, shapes, positioning}
+
+
 
 %Information to be included in the title page:
 \title{Properties of consensus protocols}
@@ -35,28 +37,27 @@
 
 
     \tikzstyle{block} = [draw, rectangle]
-
-    \tikzstyle{property} = [draw, circle]
+    \tikzstyle{property} = [draw, ellipse, font=\tiny]
 
 
     \begin{tikzpicture}[]
         \node [block] (consensus) {Consensus};
-        \node [block] (smr) {State machine replication};
-        \node [block] (blockchain) {Blockchain};
+        \node [block, above left=2cm of consensus, align=center] (smr) {State \\ machine \\ replication};
+        \node [block, above right=2cm of consensus] (blockchain) {Blockchain};
 
-        \node [property] (agreement) {Agreement};
-        \node [property] (validity) {Validity};
-        \node [property] (termination) {Termination};
-        \node [property] (linearity) {Linearity};
-        \node [property] (responsiveness) {Responsiveness};
+        \node [property, below=of consensus] (termination) {Termination};
+        \node [property, below=of consensus, left=0.1cm of termination] (validity) {Validity};
+        \node [property, below=of consensus, left=0.1cm of validity] (agreement) {Agreement};
+        \node [property, below=of consensus, right=0.1cm of termination] (linearity) {Linearity};
+        \node [property, below=of consensus, right=0.1cm of linearity] (responsiveness) {Responsiveness};
 
-        \node [property] (safety) {Safety};
-        \node [property] (liveness) {Liveness};
-        \node [property] (to) {Total ordering};
+        \node [property, above=of smr] (liveness) {Liveness};
+        \node [property, above=of smr, left=0.1cm of liveness] (safety) {Safety};
+        \node [property, above=of smr, right=0.1cm of liveness, align=center] (to) {Total \\ ordering};
 
-        \node [property] (cf) {Common prefix (Consistency)};
-        \node [property] (cg) {Chain growth};
-        \node [property] (cq) {Chain quality (Fairness)};
+        \node [property, above=of blockchain, align=center] (cg) {Chain \\ growth};
+        \node [property, above=of blockchain, left=0.1cm of cg, align=center] (cf) {Common prefix \\ (Consistency)};
+        \node [property, above=of blockchain, right=0.1cm of cg, align=center] (cq) {Chain quality \\ (Fairness)};
 
         \draw[->,blue] (consensus) -- (smr);
         \draw[->,blue] (consensus) -- (blockchain);
