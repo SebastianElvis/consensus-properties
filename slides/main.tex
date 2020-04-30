@@ -58,6 +58,9 @@
         \node [property, above=of blockchain, align=center] (cg) {Chain \\ growth};
         \node [property, above=of blockchain, left=0.1cm of cg, align=center] (cf) {Common prefix \\ (Consistency)};
         \node [property, above=of blockchain, right=0.1cm of cg, align=center] (cq) {Chain quality \\ (Fairness)};
+        \node [property, right=0.3cm of blockchain, align=center] (pers) {Persistence};
+        \node [property, below=0.1 of pers, align=center] (liv) {Liveness};
+
 
         \draw[->,blue] (consensus) -- (smr);
         \draw[->,blue] (consensus) -- (blockchain);
@@ -75,6 +78,9 @@
         \draw[->,blue] (blockchain) -- (cf);
         \draw[->,blue] (blockchain) -- (cg);
         \draw[->,blue] (blockchain) -- (cq);
+        \draw[->,blue] (blockchain) -- (pers);
+        \draw[->,blue] (blockchain) -- (liv);
+
 
 
     \end{tikzpicture}
@@ -94,7 +100,7 @@
 \begin{definition}[Consensus]
 There are $n$ nodes, of which at most $f$ might be faulty (or Byzantine).
 Each node $P_i$ starts with an input value (say $u_i$).
-The nodes must decide one of those values (say $v_i$), satisfying three properties: Agreement, Validity and Termination.
+Each node $P_i$ must decide one of those values (say $v_i$).
 \end{definition}
 
 \end{frame}
@@ -122,7 +128,7 @@ The nodes must decide one of those values (say $v_i$), satisfying three properti
 \begin{frame}
 \frametitle{Properties of consensus protocols - Agreement}
 
-(Informal) All correct processes must agree on the same value.
+All correct processes must agree on the same value.
 
 \begin{definition}[Agreement]
 For any two honest players $P_i$ and $P_j$, $v_i = v_j$.
@@ -134,10 +140,10 @@ For any two honest players $P_i$ and $P_j$, $v_i = v_j$.
 \begin{frame}
 \frametitle{Properties of consensus protocols - Validity}
 
-(Informal) The decision value must be the input value of a node.
+The decision value must be the input value of a node.
 
 \begin{definition}[Validity]
-$\forall i: u_i \in \langle v_i \rangle$.
+For all $i$, $v_i \in \langle u_i \rangle$.
 \end{definition}
 
 \end{frame}
@@ -146,10 +152,10 @@ $\forall i: u_i \in \langle v_i \rangle$.
 \begin{frame}
 \frametitle{Properties of consensus protocols - Termination}
 
-(Informal) All correct nodes terminate in finite time.
+All correct nodes terminate in finite time.
 
 \begin{definition}[Termination]
-All the honest players terminate with probability 1.
+Every honest player eventually decides some value.
 \end{definition}
 
 \end{frame}
@@ -159,7 +165,9 @@ All the honest players terminate with probability 1.
 \begin{frame}
 \frametitle{Properties of consensus protocols - Linearity}
 
-First proposed in HotStuff~\cite{yin2019hotstuff}.
+First defined in HotStuff~\cite{yin2019hotstuff}.
+
+The communication complexity of the leader is linear.
 
 \begin{definition}[Linearity]
 Any correct leader sends only $O(n)$ messages to drive a protocol to consensus.
@@ -176,10 +184,10 @@ Any correct leader sends only $O(n)$ messages to drive a protocol to consensus.
 
 First defined in Hybrid Consensus~\cite{pass2017hybrid}.
 
-(Informal) The transaction confirmation time depends only on the network’s actual delay, but not on any a-prior known upper-bound.
+The time taken before termination depends only on the network delay, but not on any known upper-bound.
 
 \begin{definition}[Responsiveness]
-A consensus protocol is responsive if nodes can reach the consensus in time depending only on the network’s actual $\delta$ (message delays), not on the loose upper bound $\Delta$ (known upper bound on message delays).
+A consensus protocol is responsive if nodes can reach the consensus in time depending only on the network’s actual message delays, not on a known upper bound on message delays.
 \end{definition}
 
 \end{frame}
@@ -220,21 +228,33 @@ A replicated state machine should:
     \item Total ordering
 \end{itemize}
 
+Only total ordering has a unique formal definition.
+
+How safety and liveness are defined is protocol-specific.
+
 \end{frame}
 
 \begin{frame}
 \frametitle{Properties of state machine replication - Safety}
 
-(Informal) When decisions are made by any two correct nodes, they decide on non-conflicting transactions.
+Bad things will never happen.
+
+Example: 
+\begin{itemize}
+    \item When decisions are made by any two correct nodes, they decide on non-conflicting transactions.
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Properties of state machine replication - Liveness}
 
-(Informal) $T$-Liveness: each honest node terminates and outputs a value at the end of $T$.
+Good thins will eventually happen.
 
-The value of $T$ depends on the research problems and protocols.
+Example:
+\begin{itemize}
+    \item Each honest node terminates and outputs a value at the end of $T$ (a time bound).
+\end{itemize}
 
 \end{frame}
 
@@ -258,16 +278,24 @@ If a correct replica has delivered $m_1, m_2, \dots ,m_s$ and another correct re
 \frametitle{Properties of blockchains}
 
 \begin{itemize}
-    \item Common prefix (Consistency)
-    \item Chain growth
-    \item Chain quality (Fairness)
+    \item Correctness
+    \begin{itemize}
+        \item Common prefix (Consistency)
+        \item Chain growth
+        \item Chain quality (Fairness)
+    \end{itemize}
+    \item Robustness
+    \begin{itemize}
+        \item Persistence
+        \item Liveness
+    \end{itemize}
 \end{itemize}
 
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Properties of blockchains - Common prefix (Consistency)}
+\frametitle{Properties of blockchains - Cocrrectness - Common prefix (Consistency)}
 
 First proposed in~\cite{garay2015bitcoin}.
 
@@ -285,7 +313,7 @@ With overwhelming probability, at any point, the chains of two honest players ca
 \end{frame}
 
 \begin{frame}
-\frametitle{Properties of blockchains - Chain growth}
+\frametitle{Properties of blockchains - Cocrrectness - Chain growth}
 
 \begin{definition}[$(\tau, s)$-chain-growth]
 For any honest party $P$ with chain $C$, it holds that for any $s$ rounds there are at least $\tau \cdot s$ blocks added to the chain of $P$.
@@ -298,11 +326,41 @@ Some papers~\cite{rocket2018snowflake}\cite{pass2017sleepy} also define upper/lo
 
 
 \begin{frame}
-\frametitle{Properties of blockchains - Chain quality (Fairness)}
+\frametitle{Properties of blockchains - Cocrrectness - Chain quality (Fairness)}
     
 \begin{definition}[$(\mu, k)$-chain-quality]
 The proportion of blocks in any $k$-long subsequence produced by the adversary is less than $\mu \cdot k$, where $\mu$ is the portion of mining power controlled by the adversary.
 \end{definition}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+    \frametitle{Properties of blockchains - Robustness - Persistence}
+
+    First proposed in~\cite{garay2015bitcoin}.
+
+    Given a tx, it is in the same position for blockchains of all honest nodes.
+
+    \begin{definition}[Persistence]
+        Parameterized by $k \in N$ (``depth'' parameter). If in a certain round an honest party reports a blockchain that contains a transaction $tx$ in a block at least $k$ blocks away from the end of the blockchain (such transaction will be called ``stable''), then whenever $tx$ is reported by any honest party it will be in the same position in the blockchain.
+    \end{definition}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Properties of blockchains - Robustness - Liveness}
+        
+    First proposed in~\cite{garay2015bitcoin}.
+
+    When all honest nodes commit a valid tx for a time period, there will be a honest node who includes it to the blockchain.
+
+    \begin{definition}[Liveness]
+        Parameterized by $u$ and $k$ (``waittime'' and ``depth'' parameter, resp.). A valid transaction is given as input to all honest parties of a blockchain continuously for the creation of $u$ consecutive blocks, then there exists an honest party who will report this transaction at a block more than $k$ blocks from the end of the ledger.
+    \end{definition}
 
 \end{frame}
 
