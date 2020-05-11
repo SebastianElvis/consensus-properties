@@ -17,7 +17,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows, shapes, positioning}
 
-
+\newtheorem*{remark}{Remark}
 
 %Information to be included in the title page:
 \title{Robustness of Transaction Ledgers}
@@ -103,18 +103,76 @@ Chain, ledger, transaction, account\dots
 
 
 \begin{frame}
-\frametitle{Definitions of Persistence and Liveness}
+\frametitle{Persistence}
 
 \begin{definition}[Persistence]
     Parametrised by $k \in \mathbb{N}$ (the ``depth'' parameter). If in a certain round an honest player reports a ledger that contains a transaction $tx$ in a block more than $k$ blocks away from the end of the ledger, then $tx$ will always be reported in the same position in the ledger by any honest player from this round on.
 \end{definition}
 
+\begin{remark}[The depth parameter $k$]
+    After $k$ blocks, a block is considered ``stable'', i.e., can be reverted with negligible probability.
+    The negligible function takes $k$ as one of its parameters.
+    In Bitcoin, the value of $k$ is 6 (recommended by the community).
+\end{remark}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{A Ledger without Persistence over Correct Nakamoto Consensus}
+
+\begin{itemize}
+    \item The accumulator does not preserve orders of txs.
+    \item The hash of accumulators of two blocks is same.
+    \item Anyone can manipulate the order of transactions in a block.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{no-persistence.pdf}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Liveness}
+
 \begin{definition}[Liveness]
     Parametrised by $u, k \in \mathbb{N}$ (the ``wait time'' and ``depth'' parameters, resp.). Provided that a transaction either (i) issued by $\mathsf{Txgen}$, or (ii) is \emph{neutral}, is given as input to all honest players continuously for $u$ consecutive rounds, then there exists an honest party who will report this transaction at a block more than k blocks from the end of the ledger.
 \end{definition}
 
+\begin{remark}[An informal rephrase]
+    Once a valid transaction is submitted, it should become $k$-``stable'' within $u$ new blocks.
+\end{remark}
+
 \end{frame}
 
+
+\begin{frame}
+\frametitle{A Ledger without Liveness over Correct Nakamoto Consensus - Case 1}
+    
+A transaction takes $>= u-k$ blocks to be included.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{no-liveness-1.pdf}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{A Ledger without Liveness over Correct Nakamoto Consensus - Case 2}
+    
+A transaction takes $< u-k$ blocks to be included, but later reverted by a longer fork.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{no-liveness-2.pdf}
+\end{figure}
+
+\end{frame}
 
 \begin{frame}
 \frametitle{Proving Persistence and Liveness - Notations}

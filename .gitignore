@@ -262,4 +262,4 @@ TSWLatexianTemp*
 *.sta
 
 __latexindent_temp.tex
-*.pdf
+main.pdf
